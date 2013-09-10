@@ -1,0 +1,6 @@
+- add aliases
+- add extra meta functions
+  - advance<Z, 3>
+  - add_all_before<Z, ...>
+  - add_all_after<Z, ...>
+- make applicative(?)
