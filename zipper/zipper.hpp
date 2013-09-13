@@ -71,8 +71,12 @@ template<class Z>
 struct before;
 
 template<class LHead, class... LTail, class RightPack>
-struct before<zipper<pack<LHead, LTail...>, RightPack>>
-    : LHead
+struct before<
+           zipper<
+               pack<LHead, LTail...>,
+               RightPack
+           >
+       > : LHead
 {};
 
 
@@ -80,8 +84,12 @@ template<class Z>
 struct after;
 
 template<class LeftPack, class RHead, class... RTail>
-struct after<zipper<LeftPack, pack<RHead, RTail...>>>
-    : RHead
+struct after<
+           zipper<
+               LeftPack,
+               pack<RHead, RTail...>
+           >
+       > : RHead
 {};
 
 
@@ -89,8 +97,15 @@ template<class Z>
 struct next;
 
 template<class LHead, class... LTail, class RHead, class... RTail>
-struct next<zipper<pack<LHead, LTail...>, pack<RHead, RTail...>>>
-    : zipper<pack<RHead, LHead, LTail...>, pack<RTail...>>
+struct next<
+           zipper<
+               pack<LHead, LTail...>,
+               pack<RHead, RTail...>
+           >
+       > : zipper<
+               pack<RHead, LHead, LTail...>,
+               pack<RTail...>
+           >
 {};
 
 
@@ -98,8 +113,15 @@ template<class Z>
 struct prior;
 
 template<class LHead, class... LTail, class RHead, class... RTail>
-struct prior<zipper<pack<LHead, LTail...>, pack<RHead, RTail...>>>
-    : zipper<pack<LTail...>, pack<LHead, RHead, RTail...>>
+struct prior<
+           zipper<
+               pack<LHead, LTail...>,
+               pack<RHead, RTail...>
+           >
+       > : zipper<
+               pack<LTail...>,
+               pack<LHead, RHead, RTail...>
+           >
 {};
 
 
@@ -107,7 +129,13 @@ template<class Z, class T>
 struct insert_before;
 
 template<class... Left, class RightPack, class T>
-struct insert_before<zipper<pack<Left...>, RightPack>, T>{
+struct insert_before<
+           zipper<
+               pack<Left...>,
+               RightPack
+           >,
+           T
+       > {
     using type = zipper<pack<T, Left...>, RightPack>;
 };
 
@@ -116,8 +144,17 @@ template<class Z, class T>
 struct insert_after;
 
 template<class LeftPack, class... Right, class T>
-struct insert_after<zipper<LeftPack, pack<Right...>>, T>{
-    using type = zipper<LeftPack, pack<T, Right...>>;
+struct insert_after<
+           zipper<
+               LeftPack,
+               pack<Right...>
+           >,
+           T
+       > {
+    using type = zipper<
+                     LeftPack,
+                     pack<T, Right...>
+                 >;
 };
 
 
@@ -125,8 +162,16 @@ template<class Z>
 struct remove_before;
 
 template<class LHead, class... LTail, class RightPack>
-struct remove_before<zipper<pack<LHead, LTail...>, RightPack>>{
-    using type = zipper<pack<LTail...>, RightPack>;
+struct remove_before<
+           zipper<
+               pack<LHead, LTail...>,
+               RightPack
+           >
+       > {
+    using type = zipper<
+                     pack<LTail...>,
+                     RightPack
+                 >;
 };
 
 
@@ -134,8 +179,16 @@ template<class Z>
 struct remove_after;
 
 template<class LeftPack, class RHead, class... RTail>
-struct remove_after<zipper<LeftPack, pack<RHead, RTail...>>>{
-    using type = zipper<LeftPack, pack<RTail...>>;
+struct remove_after<
+           zipper<
+               LeftPack,
+               pack<RHead, RTail...>
+           >
+       > {
+    using type = zipper<
+                     LeftPack,
+                     pack<RTail...>
+                 >;
 };
 
 // O(sizeof...(Z::left::size))
@@ -200,14 +253,16 @@ template<class Z, class... XS>
 struct add_all_before;
 
 template<class LeftPack, class RightPack, class... XS>
-struct add_all_before<zipper<LeftPack, RightPack>, XS...>
-    : zipper<
-         typename detail::concat<
-             typename detail::reverse<pack<XS...>>::type,
-             LeftPack
-         >::type,
-         RightPack
-      >
+struct add_all_before<
+           zipper<LeftPack, RightPack>,
+           XS...
+       > : zipper<
+               typename detail::concat<
+                   typename detail::reverse<pack<XS...>>::type,
+                   LeftPack
+               >::type,
+               RightPack
+           >
 {};
 
 
@@ -215,8 +270,16 @@ template<class Z, class... XS>
 struct add_all_after;
 
 template<class LeftPack, class... Right, class... XS>
-struct add_all_after<zipper<LeftPack, pack<Right...>>, XS...>
-    : zipper<LeftPack, pack<XS..., Right...>>
+struct add_all_after<
+           zipper<
+               LeftPack,
+               pack<Right...>
+           >,
+           XS...
+       > : zipper<
+               LeftPack,
+               pack<XS..., Right...>
+           >
 {};
 
 
@@ -224,8 +287,15 @@ template<class Z>
 struct swap;
 
 template<class LHead, class...LTail, class RHead, class...RTail>
-struct swap<zipper<pack<LHead, LTail...>, pack<RHead, RTail...>>>
-    : zipper<pack<RHead, LTail...>, pack<LHead, RTail...>>
+struct swap<
+           zipper<
+               pack<LHead, LTail...>,
+               pack<RHead, RTail...>
+           >
+       > : zipper<
+               pack<RHead, LTail...>,
+               pack<LHead, RTail...>
+           >
 {};
 
 
