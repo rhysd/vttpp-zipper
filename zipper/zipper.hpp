@@ -200,7 +200,7 @@ struct is_end<zipper<Left, empty>>
 // O(N)
 template<class Z, size_t N>
 struct advance
-    : advance<next<Z>, N-1>
+    : advance<typename next<Z>::type, N-1>::type
 {};
 
 template<class Z>
