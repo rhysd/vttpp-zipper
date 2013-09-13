@@ -24,6 +24,18 @@ struct zipper<pack<Left...>, pack<Right...>>{
 };
 
 
+template<class P>
+struct zipper_of
+    : zipper<P, empty>
+{};
+
+
+template<class... Elems>
+struct emplace_zipper
+    : zipper<pack<Elems...>, empty>
+{};
+
+
 template<class Z>
 struct before;
 
@@ -57,12 +69,6 @@ struct prior;
 template<class LHead, class... LTail, class RHead, class... RTail>
 struct prior<zipper<pack<LHead, LTail...>, pack<RHead, RTail...>>>
     : zipper<pack<LTail...>, pack<LHead, RHead, RTail...>>
-{};
-
-
-template<class... Elems>
-struct zipper_of
-    : zipper<pack<Elems...>, empty>
 {};
 
 
@@ -101,6 +107,7 @@ struct remove_after<zipper<LeftPack, pack<RHead, RTail...>>>{
     using type = zipper<LeftPack, pack<RTail...>>;
 };
 
+// O(sizeof...(Z::left::size))
 template<class Z>
 struct pack_of;
 
@@ -110,6 +117,84 @@ struct pack_of<zipper<Left, Right>>
           typename detail::reverse<Left>::type,
           Right
       >::type
+{};
+
+
+template<class Z>
+struct is_begin
+    : std::false_type
+{};
+
+template<class Right>
+struct is_begin<zipper<empty, Right>>
+    : std::true_type
+{};
+
+
+template<class Z>
+struct is_end
+    : std::false_type
+{};
+
+template<class Left>
+struct is_end<zipper<Left, empty>>
+    : std::true_type
+{};
+
+
+// O(N)
+template<class Z, size_t N>
+struct advance
+    : advance<next<Z>, N-1>
+{};
+
+template<class Z>
+struct advance<Z, 0> : Z
+{};
+
+
+// O(N)
+template<class Z, size_t N>
+struct retreat
+    : retreat<prior<Z>, N-1>
+{};
+
+template<class Z>
+struct retreat<Z, 0> : Z
+{};
+
+
+// O(sizeof...(XS))
+template<class Z, class... XS>
+struct add_all_before;
+
+template<class LeftPack, class RightPack, class... XS>
+struct add_all_before<zipper<LeftPack, RightPack>, XS...>
+    : zipper<
+         typename detail::concat<
+             typename detail::reverse<pack<XS...>>::type,
+             LeftPack
+         >::type,
+         RightPack
+      >
+{};
+
+
+template<class Z, class... XS>
+struct add_all_after;
+
+template<class LeftPack, class... Right, class... XS>
+struct add_all_after<zipper<LeftPack, pack<Right...>>, XS...>
+    : zipper<LeftPack, pack<XS..., Right...>>
+{};
+
+
+template<class Z>
+struct swap;
+
+template<class LHead, class...LTail, class RHead, class...RTail>
+struct swap<zipper<pack<LHead, LTail...>, pack<RHead, RTail...>>>
+    : zipper<pack<RHead, LTail...>, pack<LHead, RTail...>>
 {};
 
 
