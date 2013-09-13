@@ -28,7 +28,7 @@ struct zipper<
 
 template<class P>
 struct zipper_of
-    : zipper<P, empty>
+    : zipper<empty, P>
 {};
 
 
@@ -257,7 +257,7 @@ struct add_all_after<
 template<class Z>
 struct swap;
 
-template<class LHead, class...LTail, class RHead, class...RTail>
+template<class LHead, class... LTail, class RHead, class... RTail>
 struct swap<
            zipper<
                pack<LHead, LTail...>,
