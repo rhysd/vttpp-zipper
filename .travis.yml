@@ -1,0 +1,9 @@
+language: cpp
+script:
+    - g++-4.8 --version
+    - g++-4.8 -std=c++11 -Wall -Wextra -pedantic -Werror tests/test.cpp && ./a.out
+
+install:
+    - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+    - sudo apt-get -qq update
+    - sudo apt-get -qq install g++-4.8
