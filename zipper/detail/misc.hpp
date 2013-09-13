@@ -13,30 +13,32 @@ namespace detail {
     struct append;
 
     template<class E, class... Elems>
-    struct append<E, pack<Elems...>>
-        : pack<Elems..., E>
-    {};
+    struct append<E, pack<Elems...>> {
+        using type = pack<Elems..., E>;
+    };
+
 
     template<class P>
     struct reverse;
 
     template<class H, class... T>
     struct reverse<pack<H, T...>>
-        : append<H, typename reverse<T...>::type>
+        : append<H, reverse<T...>>
     {};
 
     template<>
-    struct reverse<pack<>>{
+    struct reverse<pack<>> {
         using type = pack<>;
     };
+
 
     template<class T, class U>
     struct concat;
 
     template<class... TS, class... US>
-    struct concat<pack<TS...>, pack<US...>>
-        : pack<TS..., US...>
-    {};
+    struct concat<pack<TS...>, pack<US...>> {
+        using type = pack<TS..., US...>;
+    };
 
 } // namespace detail
 } // namespace zipper

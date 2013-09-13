@@ -1,11 +1,18 @@
 #if !defined ZIPPER_ZIPPER_HPP_INCLUDED
 #define      ZIPPER_ZIPPER_HPP_INCLUDED
 
+#include <cstddef>
+#include <type_traits>
+
 #include "./detail/misc.hpp"
 
 namespace zipper { 
+
+using std::size_t;
+
 template<class... Elems>
 struct pack {
+    static const size_t size = sizeof...(Elems);
     using type = pack<Elems...>;
 };
 
