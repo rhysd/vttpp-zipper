@@ -67,32 +67,32 @@ struct after<
 template<class Z>
 struct next;
 
-template<class LHead, class... LTail, class RHead, class... RTail>
+template<class... Left, class RHead, class... RTail>
 struct next<
            zipper<
-               pack<LHead, LTail...>,
+               pack<Left...>,
                pack<RHead, RTail...>
            >
        > : zipper<
-               pack<RHead, LHead, LTail...>,
+               pack<RHead, Left...>,
                pack<RTail...>
-           >
+           >::type
 {};
 
 
 template<class Z>
 struct prior;
 
-template<class LHead, class... LTail, class RHead, class... RTail>
+template<class LHead, class... LTail, class... Right>
 struct prior<
            zipper<
                pack<LHead, LTail...>,
-               pack<RHead, RTail...>
+               pack<Right...>
            >
        > : zipper<
                pack<LTail...>,
-               pack<LHead, RHead, RTail...>
-           >
+               pack<LHead, Right...>
+           >::type
 {};
 
 
