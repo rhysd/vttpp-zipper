@@ -56,6 +56,12 @@ using insert_all_before = typename ::zipper::insert_all_before<Z, XS...>::type;
 template<class Z, class...XS>
 using insert_all_after = typename ::zipper::insert_all_after<Z, XS...>::type;
 
+template<class Z, size_t N>
+using remove_n_before = typename ::zipper::remove_n_before<Z, N>::type;
+
+template<class Z, size_t N>
+using remove_n_after = typename ::zipper::remove_n_after<Z, N>::type;
+
 template<class Z>
 using swap = typename swap<Z>::type;
 

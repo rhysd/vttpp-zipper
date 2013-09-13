@@ -44,6 +44,7 @@ IS_SAME(retreat<advance<fibz, 3>, 3>, fibz);
 IS_SAME(insert_all_before<fibz, int, double>, advance<insert_all_after<fibz, int, double>, 2>);
 IS_SAME(swap<swap<next<fibz>>>, next<fibz>);
 IS_SAME(swap<next<fibz>>, insert_before<prior<remove_after<next<fibz>>>, n<2>>);
+IS_SAME(remove_n_after<fibz, 3>, remove_n_before<advance<fibz, 3>, 3>);
 
 #include <iostream>
 int main()

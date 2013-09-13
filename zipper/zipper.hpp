@@ -254,6 +254,33 @@ struct insert_all_after<
 {};
 
 
+template<class Z, size_t N>
+struct remove_n_before
+    : remove_n_before<
+          typename remove_before<Z>::type,
+          N-1
+      >::type
+{};
+
+template<class Z>
+struct remove_n_before<Z, 0>
+    : Z
+{};
+
+template<class Z, size_t N>
+struct remove_n_after
+    : remove_n_after<
+          typename remove_after<Z>::type,
+          N-1
+      >::type
+{};
+
+template<class Z>
+struct remove_n_after<Z, 0>
+    : Z
+{};
+
+
 template<class Z>
 struct swap;
 
