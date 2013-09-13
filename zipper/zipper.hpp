@@ -211,7 +211,7 @@ struct advance<Z, 0> : Z
 // O(N)
 template<class Z, size_t N>
 struct retreat
-    : retreat<prior<Z>, N-1>
+    : retreat<typename prior<Z>::type, N-1>
 {};
 
 template<class Z>
@@ -221,10 +221,10 @@ struct retreat<Z, 0> : Z
 
 // O(sizeof...(XS))
 template<class Z, class... XS>
-struct add_all_before;
+struct insert_all_before;
 
 template<class LeftPack, class RightPack, class... XS>
-struct add_all_before<
+struct insert_all_before<
            zipper<LeftPack, RightPack>,
            XS...
        > : zipper<
@@ -238,10 +238,10 @@ struct add_all_before<
 
 
 template<class Z, class... XS>
-struct add_all_after;
+struct insert_all_after;
 
 template<class LeftPack, class... Right, class... XS>
-struct add_all_after<
+struct insert_all_after<
            zipper<
                LeftPack,
                pack<Right...>

@@ -51,10 +51,10 @@ template<class Z, size_t N>
 using retreat = typename ::zipper::retreat<Z, N>::type;
 
 template<class Z, class...XS>
-using add_all_before = typename ::zipper::add_all_before<Z, XS...>::type;
+using insert_all_before = typename ::zipper::insert_all_before<Z, XS...>::type;
 
 template<class Z, class...XS>
-using add_all_after = typename ::zipper::add_all_after<Z, XS...>::type;
+using insert_all_after = typename ::zipper::insert_all_after<Z, XS...>::type;
 
 template<class Z>
 using swap = typename swap<Z>::type;
@@ -63,7 +63,7 @@ template<class... Args>
 using make_pack = typename make_pack<Args...>::type;
 
 template<class T>
-  using make_zipper = typename make_zipper<T>::type;
+using make_zipper = typename make_zipper<T>::type;
 
 } // namespace alias
 } // namespace zipper
