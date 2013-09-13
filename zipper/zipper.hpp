@@ -17,6 +17,26 @@ struct pack {
 };
 
 
+template<class... Args>
+struct array_of{
+    using value_type = typename std::decay<
+                           typename std::common_type<
+                               typename Args::type...
+                           >::type
+                       >::type;
+    static value_type const value[sizeof...(Args)] = {Args::value...};
+};
+
+
+template<class P>
+struct array_of_pack;
+
+template<class... Elems>
+struct array_of_pack<pack<Elems...>>
+    : array_of<Elems...>
+{};
+
+
 using empty = pack<>;
 
 
@@ -24,10 +44,14 @@ template<class L, class R>
 struct zipper;
 
 template<class... Left, class... Right>
-struct zipper<pack<Left...>, pack<Right...>>{
+struct zipper<
+           pack<Left...>,
+           pack<Right...>
+       >{
     using type = zipper<pack<Left...>, pack<Right...>>;
     using left = pack<Left...>;
     using right = pack<Right...>;
+    static size_t const pos = left::size;
 };
 
 
