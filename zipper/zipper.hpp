@@ -34,7 +34,7 @@ struct zipper_of
 
 template<class... Elems>
 struct emplace_zipper
-    : zipper<pack<Elems...>, empty>
+    : zipper<empty, pack<Elems...>>
 {};
 
 

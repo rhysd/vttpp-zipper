@@ -23,7 +23,7 @@ namespace detail {
 
     template<class H, class... T>
     struct reverse<pack<H, T...>>
-        : append<H, reverse<T...>>
+        : append<H, typename reverse<pack<T...>>::type>
     {};
 
     template<>
